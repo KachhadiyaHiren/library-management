@@ -1,0 +1,55 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-book fa-3x mb-3"></i>
+                <h3>{{ total_books }}</h3>
+                <p class="mb-0">Total Books</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-check-circle fa-3x mb-3"></i>
+                <h3>{{ available_books }}</h3>
+                <p class="mb-0">Available Books</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card stat-card">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-3x mb-3"></i>
+                <h3>{{ total_members }}</h3>
+                <p class="mb-0">Total Members</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle"></i> Welcome to Library Management System</h5>
+            </div>
+            <div class="card-body">
+                <p>This system helps you manage your library efficiently with the following features:</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Add and manage books</li>
+                    <li><i class="fas fa-check text-success"></i> Register and manage members</li>
+                    <li><i class="fas fa-check text-success"></i> Book borrowing and returning system</li>
+                    <li><i class="fas fa-check text-success"></i> Track borrowing limits</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+<!-- templates/return.html -->
+{% extends "base.html" %}
+
+{% block title %}Return Book{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-undo"></i> Return Book</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="member_id" class="form-label">Select Member *</label>
+                        <select class="form-control" id="member_id" name="member_id" required onchange="loadMemberBooks()">
+                            <option value="">Choose a member...</option>
+                            {% for member_id, member in members.items() %}
+                                {% if member.borrowed_books %}
+                                    <option value="{{ member.id }}">{{ member.name }} ({{ member.email }})</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="book_id" class="form-label">Select Book to Return *</label>
+                        <select class="form-control" id="book_id" name="book_id" required>
+                            <option value="">First select a member...</option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-undo"></i> Return Book
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function loadMemberBooks() {
+    const memberId = document.getElementById('member_id').value;
+    const bookSelect = document.getElementById('book_id');
+    
+    if (!memberId) {
+        bookSelect.innerHTML = '<option value="">First select a member...</option>';
+        return;
+    }
+    
+    fetch(`/api/member/${memberId}/books`)
+        .then(response => response.json())
+        .then(books => {
+            bookSelect.innerHTML = '<option value="">Choose a book to return...</option>';
+            books.forEach(book => {
+                const option = document.createElement('option');
+                option.value = book.book_id;
+                option.textContent = `Book ID: ${book.book_id}`;
+                bookSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading books:', error);
+            bookSelect.innerHTML = '<option value="">Error loading books</option>';
+        });
+}
+</script>
+{% endblock %}

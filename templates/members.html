@@ -1,0 +1,61 @@
+<!-- templates/members.html -->
+{% extends "base.html" %}
+
+{% block title %}Members{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Library Members</h2>
+    <a href="{{ url_for('add_member') }}" class="btn btn-primary">
+        <i class="fas fa-user-plus"></i> Add New Member
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if members %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Borrowed Books</th>
+                            <th>Can Borrow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member_id, member in members.items() %}
+                        <tr>
+                            <td>{{ member.id }}</td>
+                            <td>{{ member.name }}</td>
+                            <td>{{ member.email }}</td>
+                            <td>
+                                <span class="badge bg-info">
+                                    {{ member.borrowed_books|length }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if member.can_borrow_more %}
+                                    <span class="badge bg-success">Yes</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Limit Reached</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-users fa-5x text-muted mb-3"></i>
+                <h5>No members found</h5>
+                <p class="text-muted">Start by registering some members.</p>
+                <a href="{{ url_for('add_member') }}" class="btn btn-primary">Add First Member</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
